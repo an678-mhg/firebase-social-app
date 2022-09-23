@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:id="@+id/postItem" android:layout_marginBottom="20dp" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        android:background="@color/primary_background_3"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexDirection="row"
+            app:alignItems="center"
+            android:id="@+id/box_info_user_loading"
+            >
+            <ProgressBar
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
+                app:flexDirection="column"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="15dp"
+                    android:textStyle="bold"
+                    android:background="@color/grayColor"
+                    android:textColor="@color/white"
+                    />
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:background="@color/grayColor"
+                    android:textColor="@color/white"
+                    android:layout_width="80dp"
+                    android:layout_height="10dp"
+                    />
+            </com.google.android.flexbox.FlexboxLayout>
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <com.google.android.flexbox.FlexboxLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flexDirection="row"
+        app:alignItems="center"
+        android:id="@+id/box_info_user"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/fb"
+            android:id="@+id/userAvatar"
+            />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            app:flexDirection="column"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Songohan"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:id="@+id/userName"
+                android:textColor="@color/white"
+                />
+
+            <TextView
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Just now"
+                android:textSize="14dp"
+                android:id="@+id/userSubName"
+                />
+        </com.google.android.flexbox.FlexboxLayout>
+    </com.google.android.flexbox.FlexboxLayout>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:text="This is post text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:id="@+id/postTitle"
+            />
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            >
+            <ImageView
+                android:scaleType="centerCrop"
+                android:id="@+id/postImageContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/gohan_preview" />
+        </LinearLayout>
+
+        <com.google.android.flexbox.FlexboxLayout
+            app:alignItems="center"
+            android:layout_marginVertical="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <ImageView android:layout_marginRight="10dp" android:src="@drawable/ic_baseline_thumb_up_24_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+                android:id="@+id/textLikeCount"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:text="15 likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <View
+            android:background="#bdc3c7"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            >
+            <com.google.android.flexbox.FlexboxLayout
+                android:padding="16dp"
+                android:id="@+id/buttonLikePost"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:justifyContent="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.google.android.flexbox.FlexboxLayout
+                    app:justifyContent="center"
+                    app:alignItems="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iconLike"
+                        android:src="@drawable/ic_baseline_thumb_up_24"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                    <TextView
+                        android:textColor="@color/white"
+                        android:layout_marginLeft="20dp"
+                        android:textSize="16dp"
+                        android:text="Like"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                </com.google.android.flexbox.FlexboxLayout>
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:padding="16dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:justifyContent="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.google.android.flexbox.FlexboxLayout
+                    app:alignItems="center"
+                    app:justifyContent="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:src="@drawable/ic_baseline_insert_comment_24"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                    <TextView
+                        android:layout_marginLeft="20dp"
+                        android:textSize="16dp"
+                        android:text="Comment"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                </com.google.android.flexbox.FlexboxLayout>
+            </com.google.android.flexbox.FlexboxLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

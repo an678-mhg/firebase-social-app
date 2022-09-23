@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@color/primary_background_1" android:layout_width="match_parent" android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        tools:context=".activity.PostDetailActivity"
+        >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <LinearLayout
+                android:id="@+id/postDetail"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:id="@+id/detailImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/gohan_preview" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/box_info_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    app:alignItems="center"
+                    app:flexDirection="row">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/postDetailAvatar"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/fb" />
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        app:flexDirection="column">
+
+                        <TextView
+                            android:id="@+id/postDetailUserName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Songohan"
+                            android:textColor="@color/white"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:textColor="@color/white"
+                            android:id="@+id/postDetailSubUserName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Just now"
+                            android:textSize="14dp" />
+                    </com.google.android.flexbox.FlexboxLayout>
+                </com.google.android.flexbox.FlexboxLayout>
+                <TextView
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:paddingHorizontal="16dp"
+                    android:id="@+id/postDetailTitle"
+                    android:text="This is a content post"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editTextComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/primary_background_2"
+                android:drawableLeft="@drawable/ic_baseline_insert_comment_24"
+                android:drawablePadding="16dp"
+                android:gravity="bottom"
+                android:hint="Comment..."
+                android:layout_margin="16dp"
+                android:inputType="text"
+                android:padding="16dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/grayColor"
+                android:drawableRight="@drawable/ic_baseline_send_24"
+                android:drawableTint="@color/white"
+                android:layout_alignParentBottom="true"/>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

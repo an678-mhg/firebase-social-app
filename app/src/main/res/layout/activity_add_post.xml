@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_background_1"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.AddPostActivity">
+
+        <LinearLayout
+            android:layout_marginTop="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:hint="Title..."
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="14dp"
+                    android:textColor="@color/white"
+                    android:background="@color/primary_background_2"
+                    android:textStyle="bold"
+                    android:drawablePadding="20dp"
+                    android:id="@+id/editTextTitle"
+                    android:layout_marginBottom="20dp"
+                    android:textColorHint="@color/white"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/primary_background_2"
+                    android:text="select a file"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="10dp"
+                    android:padding="14dp"
+                    android:textStyle="bold"
+                    android:id="@+id/button_select_file"
+                    android:drawableLeft="@drawable/ic_baseline_camera_alt_24"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/wrap_image"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    >
+                    <ImageView
+                        android:id="@+id/action_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:text="add post"
+                android:id="@+id/button_add_post"
+                android:backgroundTint="@color/primary_background_2"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
