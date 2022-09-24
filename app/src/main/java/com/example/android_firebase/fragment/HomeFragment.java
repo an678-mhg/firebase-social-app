@@ -38,9 +38,6 @@ public class HomeFragment extends Fragment {
     private ArrayList<Post> postArrayList;
     private TextView textNoPostRecently;
     private LinearLayoutManager linearLayout;
-    private int limit = 5;
-    private boolean isLoading;
-    private boolean isLoadMore;
 
     @Nullable
     @Override
@@ -53,8 +50,7 @@ public class HomeFragment extends Fragment {
         linearLayout = new LinearLayoutManager(container.getContext());
         listPost.setLayoutManager(linearLayout);
         progressBar.setVisibility(View.VISIBLE);
-        getPostsFromFireBase(limit);
-        listenEvent();
+        getPostsFromFireBase();
         return view;
     }
 
@@ -64,31 +60,9 @@ public class HomeFragment extends Fragment {
         textNoPostRecently = view.findViewById(R.id.text_no_post_recently);
     }
 
-    public void listenEvent() {
-        listPost.addOnScrollListener(new Pagination(linearLayout) {
-            @Override
-            public void loadMoreItem() {
-                Toast.makeText(getContext(), "Load more", Toast.LENGTH_SHORT).show();
-                isLoading = true;
-                limit += 5;
-                getPostsFromFireBase(limit);
-            }
-
-            @Override
-            public boolean isLoading() {
-                return isLoading;
-            }
-
-            @Override
-            public boolean isLoadMore() {
-                return isLoadMore;
-            }
-        });
-    }
-
-    public void getPostsFromFireBase(int limit) {
+    public void getPostsFromFireBase() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("posts").orderBy("createAt", Query.Direction.DESCENDING).limit(limit).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("posts").orderBy("createAt", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -113,12 +87,6 @@ public class HomeFragment extends Fragment {
                         progressBar.setVisibility(View.GONE);
                         listPost.setVisibility(View.GONE);
                         textNoPostRecently.setVisibility(View.VISIBLE);
-                    }
-                    isLoading = false;
-                    if(postArrayList.size() >= limit) {
-                        isLoadMore = true;
-                    } else {
-                        isLoadMore = false;
                     }
                 } else {
 

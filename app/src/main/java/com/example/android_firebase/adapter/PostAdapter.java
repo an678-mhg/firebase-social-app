@@ -1,8 +1,5 @@
 package com.example.android_firebase.adapter;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,9 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

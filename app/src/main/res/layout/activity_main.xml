@@ -6,20 +6,6 @@
         android:layout_height="match_parent"
         tools:context=".activity.MainActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <androidx.appcompat.widget.Toolbar
-            app:titleTextColor="@color/white"
-            app:title="@string/app_name"
-            app:navigationIcon="@drawable/ic_baseline_local_fire_department_24_white"
-            android:background="@color/primary_background_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-    </com.google.android.material.appbar.AppBarLayout>
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_add_post"
         android:layout_width="60dp"
@@ -32,7 +18,6 @@
         android:src="@drawable/ic_baseline_add_24" />
 
     <FrameLayout
-        android:layout_below="@id/appBar"
         android:id="@+id/fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

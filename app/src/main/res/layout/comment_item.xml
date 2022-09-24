@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:paddingHorizontal="10dp" android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_marginBottom="10dp"
+        android:id="@+id/commentLayoutLoading"
+        app:alignItems="center"
+        android:padding="10dp"
+        android:background="@color/primary_background_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:src="@drawable/fb"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            />
+
+        <com.google.android.flexbox.FlexboxLayout
+            app:flexDirection="column"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.flexbox.FlexboxLayout
+                app:alignItems="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:textSize="16dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:background="@color/grayColor"
+                    android:layout_width="100dp"
+                    android:layout_height="16dp"
+                    />
+
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:background="@color/grayColor"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_width="150dp"
+                android:layout_height="16dp"/>
+
+        </com.google.android.flexbox.FlexboxLayout>
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_marginBottom="10dp"
+        android:id="@+id/commentLayoutInfo"
+        android:visibility="gone"
+        app:alignItems="center"
+        android:padding="10dp"
+        android:background="@color/primary_background_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/commentUserAvatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            />
+
+        <com.google.android.flexbox.FlexboxLayout
+            app:flexDirection="column"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.flexbox.FlexboxLayout
+                app:alignItems="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/commentUserName"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="16dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <TextView
+                    android:id="@+id/commentUserSubName"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="14dp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <TextView
+                android:id="@+id/commentText"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.flexbox.FlexboxLayout>
+    </com.google.android.flexbox.FlexboxLayout>
+
+</LinearLayout>

@@ -32,7 +32,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Toast.makeText(view.getContext(), auth.getCurrentUser().getPhotoUrl().toString(), Toast.LENGTH_SHORT).show();
         init(view);
         listenEvent();
     }

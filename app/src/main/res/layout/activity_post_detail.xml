@@ -33,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/gohan_preview" />
+                    />
 
                 <com.google.android.flexbox.FlexboxLayout
                     android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                         android:id="@+id/postDetailAvatar"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/fb" />
+                        />
 
                     <com.google.android.flexbox.FlexboxLayout
                         android:layout_width="wrap_content"
@@ -96,7 +96,6 @@
                             android:id="@+id/postDetailUserName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Songohan"
                             android:textColor="@color/white"
                             android:textSize="16dp"
                             android:textStyle="bold" />
@@ -106,7 +105,6 @@
                             android:id="@+id/postDetailSubUserName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Just now"
                             android:textSize="14dp" />
                     </com.google.android.flexbox.FlexboxLayout>
                 </com.google.android.flexbox.FlexboxLayout>
@@ -115,13 +113,13 @@
                     android:textSize="16dp"
                     android:paddingHorizontal="16dp"
                     android:id="@+id/postDetailTitle"
-                    android:text="This is a content post"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
             </LinearLayout>
 
             <EditText
+                android:imeOptions="actionDone"
                 android:id="@+id/editTextComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -130,7 +128,7 @@
                 android:drawablePadding="16dp"
                 android:gravity="bottom"
                 android:hint="Comment..."
-                android:layout_margin="16dp"
+                android:layout_margin="10dp"
                 android:inputType="text"
                 android:padding="16dp"
                 android:textColor="@color/white"
@@ -138,6 +136,33 @@
                 android:drawableRight="@drawable/ic_baseline_send_24"
                 android:drawableTint="@color/white"
                 android:layout_alignParentBottom="true"/>
+
+            <ProgressBar
+                android:id="@+id/progressBarComment"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/textViewNoComment"
+                android:gravity="center"
+                android:text="No comment"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginTop="20dp"
+                android:textSize="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listComment"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
         </LinearLayout>
     </ScrollView>

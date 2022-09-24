@@ -21,15 +21,15 @@ public abstract class Pagination extends RecyclerView.OnScrollListener {
         int totalItemCount = linearLayoutManager.getItemCount();
         int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
 
+        Toast.makeText(recyclerView.getContext(), "on scrolled", Toast.LENGTH_SHORT).show();
+
         if(isLoading() || !isLoadMore()) {
+            Toast.makeText(recyclerView.getContext(), "stop on scroll", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Toast.makeText(recyclerView.getContext(),visibleItemCount , Toast.LENGTH_SHORT).show();
-        Toast.makeText(recyclerView.getContext(),firstVisibleItemPosition , Toast.LENGTH_SHORT).show();
-        Toast.makeText(recyclerView.getContext(),totalItemCount , Toast.LENGTH_SHORT).show();
-
-        if(firstVisibleItemPosition >= 0 && (visibleItemCount + firstVisibleItemPosition) > totalItemCount) {
+        if(firstVisibleItemPosition >= 0 && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount) {
+            Toast.makeText(recyclerView.getContext(), "on scrolled infinity", Toast.LENGTH_SHORT).show();
             loadMoreItem();
         }
     }
