@@ -109,12 +109,12 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-//        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), ForgotPassword.class);
-//                startActivity(intent);
-//            }
-//        });
+        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ForgotPassword.class);
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:background="@color/primary_background_1" android:layout_width="match_parent" android:layout_height="match_parent"
+<LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:background="@color/primary_background_1" android:layout_width="match_parent" android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <ScrollView android:visibility="gone" android:id="@+id/postDetailLayout" xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent" android:layout_height="match_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
         tools:context=".activity.PostDetailActivity"
         >
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -29,6 +36,43 @@
                     android:src="@drawable/gohan_preview" />
 
                 <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:flexDirection="row"
+                    app:alignItems="center"
+                    android:padding="16dp"
+                    android:id="@+id/box_info_user_loading"
+                    >
+                    <ProgressBar
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        />
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        app:flexDirection="column"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="15dp"
+                            android:textStyle="bold"
+                            android:background="@color/grayColor"
+                            android:textColor="@color/white"
+                            />
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:background="@color/grayColor"
+                            android:textColor="@color/white"
+                            android:layout_width="80dp"
+                            android:layout_height="10dp"
+                            />
+                    </com.google.android.flexbox.FlexboxLayout>
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:visibility="gone"
                     android:id="@+id/box_info_user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -97,4 +141,4 @@
 
         </LinearLayout>
     </ScrollView>
-</RelativeLayout>
+</LinearLayout>

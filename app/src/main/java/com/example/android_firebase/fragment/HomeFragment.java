@@ -1,11 +1,13 @@
 package com.example.android_firebase.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,18 +16,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_firebase.R;
+import com.example.android_firebase.activity.MainActivity;
 import com.example.android_firebase.adapter.PostAdapter;
 import com.example.android_firebase.models.Post;
+import com.example.android_firebase.utils.Pagination;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class HomeFragment extends Fragment {
     private RecyclerView listPost;
@@ -33,19 +37,24 @@ public class HomeFragment extends Fragment {
     private ProgressBar progressBar;
     private ArrayList<Post> postArrayList;
     private TextView textNoPostRecently;
+    private LinearLayoutManager linearLayout;
+    private int limit = 5;
+    private boolean isLoading;
+    private boolean isLoadMore;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         init(view);
-        listenEvent();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         postArrayList = new ArrayList<>();
         postAdapter = new PostAdapter(postArrayList, firebaseAuth.getCurrentUser().getUid(), container.getContext());
-        LinearLayoutManager linearLayout = new LinearLayoutManager(container.getContext());
+        linearLayout = new LinearLayoutManager(container.getContext());
         listPost.setLayoutManager(linearLayout);
-        getPostsFromFireBase();
+        progressBar.setVisibility(View.VISIBLE);
+        getPostsFromFireBase(limit);
+        listenEvent();
         return view;
     }
 
@@ -56,13 +65,30 @@ public class HomeFragment extends Fragment {
     }
 
     public void listenEvent() {
+        listPost.addOnScrollListener(new Pagination(linearLayout) {
+            @Override
+            public void loadMoreItem() {
+                Toast.makeText(getContext(), "Load more", Toast.LENGTH_SHORT).show();
+                isLoading = true;
+                limit += 5;
+                getPostsFromFireBase(limit);
+            }
 
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+            @Override
+            public boolean isLoadMore() {
+                return isLoadMore;
+            }
+        });
     }
 
-    public void getPostsFromFireBase() {
+    public void getPostsFromFireBase(int limit) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        progressBar.setVisibility(View.VISIBLE);
-        db.collection("posts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("posts").orderBy("createAt", Query.Direction.DESCENDING).limit(limit).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -87,6 +113,12 @@ public class HomeFragment extends Fragment {
                         progressBar.setVisibility(View.GONE);
                         listPost.setVisibility(View.GONE);
                         textNoPostRecently.setVisibility(View.VISIBLE);
+                    }
+                    isLoading = false;
+                    if(postArrayList.size() >= limit) {
+                        isLoadMore = true;
+                    } else {
+                        isLoadMore = false;
                     }
                 } else {
 

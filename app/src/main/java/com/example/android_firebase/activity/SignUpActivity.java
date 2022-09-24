@@ -58,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText usernameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
     Button signUpButton;
     ProgressBar progressBar;
-    TextView forgotPassword, signInTextView, profileTextView;
+    TextView signInTextView, profileTextView;
     ImageView profileImageView;
     LinearLayout profileLayout;
 
@@ -97,6 +97,10 @@ public class SignUpActivity extends AppCompatActivity {
         }
         if(!confirmPassword.equals(password)) {
             confirmPasswordEditText.setError("Password does not match!");
+            return false;
+        }
+        if(mUri == null) {
+            Toast.makeText(this, "Please select image profile", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -172,7 +176,6 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton = findViewById(R.id.signUpButton);
         progressBar = findViewById(R.id.progress_bar);
         signInTextView = findViewById(R.id.login_text_view);
-        forgotPassword = findViewById(R.id.forgotPassword);
         profileImageView = findViewById(R.id.profileImageView);
         profileLayout = findViewById(R.id.profileLayout);
         profileTextView = findViewById(R.id.profileTextView);
@@ -268,14 +271,6 @@ public class SignUpActivity extends AppCompatActivity {
                 String password = passwordEditText.getText().toString();
                 String confirmPassword = confirmPasswordEditText.getText().toString();
                 handleSignUp(email, username, password, confirmPassword);
-            }
-        });
-
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SignUpActivity.this, ForgotPassword.class);
-                startActivity(intent);
             }
         });
 
