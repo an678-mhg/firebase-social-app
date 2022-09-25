@@ -1,5 +1,6 @@
 package com.example.android_firebase.utils;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,15 +22,11 @@ public abstract class Pagination extends RecyclerView.OnScrollListener {
         int totalItemCount = linearLayoutManager.getItemCount();
         int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
 
-        Toast.makeText(recyclerView.getContext(), "on scrolled", Toast.LENGTH_SHORT).show();
-
         if(isLoading() || !isLoadMore()) {
-            Toast.makeText(recyclerView.getContext(), "stop on scroll", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if(firstVisibleItemPosition >= 0 && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount) {
-            Toast.makeText(recyclerView.getContext(), "on scrolled infinity", Toast.LENGTH_SHORT).show();
             loadMoreItem();
         }
     }

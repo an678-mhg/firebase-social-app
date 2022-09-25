@@ -1,13 +1,18 @@
 package com.example.android_firebase.fragment;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +28,6 @@ import com.example.android_firebase.adapter.UserAdapter;
 import com.example.android_firebase.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -40,12 +44,14 @@ public class SearchFragment extends Fragment {
     private ArrayList<User> userArrayList;
     private FirebaseFirestore db;
     private TextView textViewNoUsers;
+    private EditText editTextSearch;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_fragment, container, false);
         init(view);
+        listenEvent();
         loadUserFromFirebase();
         return view;
     }
@@ -55,12 +61,32 @@ public class SearchFragment extends Fragment {
         listUser = view.findViewById(R.id.listUser);
         progressBar = view.findViewById(R.id.progressBar);
         textViewNoUsers = view.findViewById(R.id.textViewNoUsers);
+        editTextSearch = view.findViewById(R.id.editTextSearch);
 
         userArrayList = new ArrayList<>();
         userAdapter = new UserAdapter(view.getContext(), userArrayList);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         listUser.setLayoutManager(linearLayoutManager);
         db = FirebaseFirestore.getInstance();
+    }
+
+    private void listenEvent() {
+        editTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                userAdapter.getFilter().filter(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     private void loadUserFromFirebase() {
@@ -100,5 +126,13 @@ public class SearchFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(userAdapter != null) {
+            userAdapter.release();
+        }
     }
 }

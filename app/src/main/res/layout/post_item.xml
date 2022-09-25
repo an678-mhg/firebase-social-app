@@ -56,7 +56,6 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/fb"
             android:id="@+id/userAvatar"
             />
 
@@ -68,7 +67,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Songohan"
                 android:textStyle="bold"
                 android:textSize="16dp"
                 android:id="@+id/userName"
@@ -79,7 +77,6 @@
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Just now"
                 android:textSize="14dp"
                 android:id="@+id/userSubName"
                 />

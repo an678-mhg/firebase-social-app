@@ -24,12 +24,29 @@
 
     <LinearLayout
         android:id="@+id/layoutSearch"
-        android:visibility="gone"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sign_in_text"
+            android:padding="14dp"
+            android:textColor="@color/white"
+            android:hint="Search..."
+            android:background="@drawable/radius_background"
+            android:textColorHint="@color/white"
+            android:textStyle="bold"
+            android:inputType="text"
+            android:drawableLeft="@drawable/ic_baseline_search_24"
+            android:drawablePadding="20dp"
+            android:id="@+id/editTextSearch"
+            />
+
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="10dp"
             android:id="@+id/listUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

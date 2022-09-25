@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -54,6 +57,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
+    private Button sendButton;
     private String postId;
 
     @Override
@@ -80,6 +84,7 @@ public class PostDetailActivity extends AppCompatActivity {
         progressBarComment = findViewById(R.id.progressBarComment);
         listComment = findViewById(R.id.listComment);
         textViewNoComment = findViewById(R.id.textViewNoComment);
+        sendButton = findViewById(R.id.buttonSendMess);
         Bundle bundle = getIntent().getExtras();
         if(bundle == null) return;
         postId = (String) bundle.get("postId");
@@ -93,16 +98,21 @@ public class PostDetailActivity extends AppCompatActivity {
     }
 
     private void listenEvent() {
-        editTextComment.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_DONE) {
-                    postCommentFirebase();
-                    return true;
-                }
-                return false;
-            }
+        sendButton.setOnClickListener(v -> {
+            postCommentFirebase();
         });
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        }
     }
 
     private void postCommentFirebase() {
@@ -115,6 +125,7 @@ public class PostDetailActivity extends AppCompatActivity {
         comment.put("createdAt", Timestamp.now());
         db.collection("comments").add(comment);
         editTextComment.setText("");
+        hideSoftKeyboard(this);
     }
 
     private void addCommentInAdapter() {
@@ -208,5 +219,13 @@ public class PostDetailActivity extends AppCompatActivity {
     private String convertTimeStamp(Timestamp timestamp) {
         SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
         return sfd.format(timestamp.toDate());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(commentAdapter != null) {
+            commentAdapter.release();
+        }
     }
 }

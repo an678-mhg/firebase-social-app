@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@color/primary_background_1" xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ChatActivity">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:visibility="gone"
+            android:id="@+id/headerChat"
+            android:layout_alignParentTop="true"
+            app:alignItems="center"
+            app:justifyContent="space_between"
+            android:padding="10dp"
+            android:background="@color/primary_background_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                />
+
+            <TextView
+                android:id="@+id/userName"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userAvatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listMessage"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/headerChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:visibility="gone"
+            android:id="@+id/inputChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:padding="10dp"
+            app:alignItems="center">
+
+            <EditText
+                android:id="@+id/editTextChat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/radius_background"
+                android:drawableLeft="@drawable/ic_baseline_insert_comment_24"
+                android:drawablePadding="20dp"
+                android:drawableTint="@color/white"
+                android:hint="Chat..."
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textStyle="bold"
+                android:layout_marginRight="10dp"
+                app:layout_flexGrow="8" />
+
+            <Button
+                android:background="@drawable/radius_background"
+                android:id="@+id/buttonSendMess"
+                android:layout_width="0dp"
+                android:backgroundTint="@color/blue_primary"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_baseline_send_24"
+                android:drawableTint="@color/white"
+                app:layout_flexGrow="1.5" />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+</RelativeLayout>

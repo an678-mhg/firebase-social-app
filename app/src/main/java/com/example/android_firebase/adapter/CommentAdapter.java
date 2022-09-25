@@ -45,6 +45,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return new CommentViewHolder(view);
     }
 
+    public void release() {
+        context = null;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Comment comment = commentArrayList.get(position);

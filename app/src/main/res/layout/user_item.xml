@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/userItem"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,7 +10,7 @@
         android:layout_marginBottom="10dp"
         app:alignItems="center"
         android:padding="10dp"
-        android:background="@color/primary_background_2"
+        android:background="@drawable/radius_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
