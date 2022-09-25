@@ -1,7 +1,10 @@
 package com.example.android_firebase.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -17,6 +20,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.android_firebase.R;
+import com.example.android_firebase.adapter.ChatAdapter;
+import com.example.android_firebase.models.Chat;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,9 +29,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -44,6 +54,10 @@ public class ChatActivity extends AppCompatActivity {
     private FlexboxLayout inputChat;
     private ProgressBar progressBar;
     private String currentRoomId;
+    private ArrayList<Chat> chatArrayList;
+    private ChatAdapter chatAdapter;
+    private LinearLayoutManager linearLayoutManager;
+    private RecyclerView listMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +76,7 @@ public class ChatActivity extends AppCompatActivity {
         headerChat = findViewById(R.id.headerChat);
         inputChat = findViewById(R.id.inputChat);
         progressBar = findViewById(R.id.progressBar);
+        listMessage = findViewById(R.id.listMessage);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle == null) return;
@@ -69,6 +84,48 @@ public class ChatActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         handleCreateRoomChat();
+
+        chatArrayList = new ArrayList<>();
+        chatAdapter = new ChatAdapter(ChatActivity.this, chatArrayList, auth.getCurrentUser().getUid());
+        linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
+        listMessage.setLayoutManager(linearLayoutManager);
+    }
+
+    private void handleLoadMessage(String roomId) {
+        db.collection("messages")
+                .whereEqualTo("roomId", roomId)
+                .orderBy("createAt", Query.Direction.ASCENDING)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.e("error query", e.getMessage());
+                            return;
+                        }
+                        for (DocumentChange doc : value.getDocumentChanges()) {
+                            if(doc.getType() == DocumentChange.Type.ADDED) {
+                                String text = doc.getDocument().getString("text");
+                                String senderId = doc.getDocument().getString("senderId");
+                                String roomId = doc.getDocument().getString("roomId");
+                                Timestamp createAt = doc.getDocument().getTimestamp("createAt");
+                                Chat chat = new Chat(roomId, text, senderId, createAt);
+                                if(chat != null) {
+                                    chatArrayList.add(chat);
+                                }
+                            }
+                        }
+                        chatAdapter.setChatArrayList(chatArrayList);
+                        listMessage.setAdapter(chatAdapter);
+                        listMessage.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        headerChat.setVisibility(View.VISIBLE);
+                        inputChat.setVisibility(View.VISIBLE);
+                        if(chatArrayList.size() > 0) {
+                            listMessage.smoothScrollToPosition(chatArrayList.size() - 1);
+                        }
+                    }
+                });
     }
 
     private void handleLoadRoom(String roomId) {
@@ -87,11 +144,9 @@ public class ChatActivity extends AppCompatActivity {
                                         Glide.with(ChatActivity.this).load(documentSnapshot.getString("photoURL")).into(userAvatar);
                                         userName.setText(documentSnapshot.getString("displayName"));
                                     }
-                                    progressBar.setVisibility(View.GONE);
-                                    headerChat.setVisibility(View.VISIBLE);
-                                    inputChat.setVisibility(View.VISIBLE);
                                 }
                             });
+                            handleLoadMessage(roomId);
                         }
                     }
                 }

@@ -29,6 +29,7 @@ import com.example.android_firebase.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -45,6 +46,7 @@ public class SearchFragment extends Fragment {
     private FirebaseFirestore db;
     private TextView textViewNoUsers;
     private EditText editTextSearch;
+    private FirebaseAuth auth;
 
     @Nullable
     @Override
@@ -68,6 +70,7 @@ public class SearchFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         listUser.setLayoutManager(linearLayoutManager);
         db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
     }
 
     private void listenEvent() {
@@ -95,6 +98,9 @@ public class SearchFragment extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()) {
                     for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                        if(auth.getCurrentUser().getUid().equals(documentSnapshot.getId())) {
+                            continue;
+                        }
                         String id = documentSnapshot.getId();
                         String displayName = documentSnapshot.getString("displayName");
                         String photoURL = documentSnapshot.getString("photoURL");
