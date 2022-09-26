@@ -18,14 +18,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     BottomNavigationView bottomNavigationView;
     HomeFragment homeFragment = new HomeFragment();
     SearchFragment searchFragment = new SearchFragment();
     ChatFragment chatFragment = new ChatFragment();
     ProfileFragment profileFragment = new ProfileFragment();
     FloatingActionButton floatingActionButton;
-    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

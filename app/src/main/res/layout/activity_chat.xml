@@ -1,106 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:orientation="vertical" android:background="@color/primary_background_1" xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/primary_background_1"
     tools:context=".activity.ChatActivity">
 
-    <ProgressBar
-        android:layout_centerInParent="true"
-        android:id="@+id/progressBar"
-        android:layout_gravity="center"
+    <View
+        android:id="@+id/viewBackground"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/background_content"
+        app:layout_constraintBottom_toTopOf="@id/buttonSendMess"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.flexbox.FlexboxLayout
-            android:visibility="gone"
-            android:id="@+id/headerChat"
-            android:layout_alignParentTop="true"
-            app:alignItems="center"
-            app:justifyContent="space_between"
-            android:padding="10dp"
-            android:background="@color/primary_background_2"
+    <View
+        android:id="@+id/headerBackground"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/primary_background_1"
+        app:layout_constraintBottom_toTopOf="@id/viewSupport"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/backButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userAvatar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:padding="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/backButton"
+        app:layout_constraintEnd_toStartOf="@id/userAvatar"
+        app:layout_constraintStart_toEndOf="@id/backButton"
+        app:layout_constraintTop_toTopOf="@id/backButton" />
+
+    <View
+        android:background="@color/primary_background_2"
+        android:id="@+id/viewSupport"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/backButton" />
+
+    <TextView
+        android:visibility="gone"
+        android:gravity="center"
+        android:text="online"
+        android:id="@+id/textIsOnlineUser"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/viewSupport"
+        android:padding="2dp"
+        android:textSize="10dp"
+        android:background="#008000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:visibility="gone"
+        android:id="@+id/listMessage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        android:padding="20dp"
+        app:stackFromEnd="true"
+        app:layout_constraintBottom_toBottomOf="@id/viewBackground"
+        app:layout_constraintTop_toBottomOf="@id/textIsOnlineUser" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="@id/viewBackground"
+        app:layout_constraintEnd_toEndOf="@id/viewBackground"
+        app:layout_constraintStart_toStartOf="@id/viewBackground"
+        app:layout_constraintTop_toTopOf="@id/viewBackground" />
+
+    <FrameLayout
+        android:id="@+id/buttonSendMess"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/background_chat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_outline_send_24" />
 
-            <ImageView
-                android:id="@+id/backButton"
-                android:src="@drawable/ic_baseline_arrow_back_24"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                />
+    </FrameLayout>
 
-            <TextView
-                android:id="@+id/userName"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+    <EditText
+        android:id="@+id/editTextChat"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/background_chat"
+        android:hint="@string/type_a_message"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/buttonSendMess"
+        app:layout_constraintStart_toStartOf="parent" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/userAvatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                />
-
-        </com.google.android.flexbox.FlexboxLayout>
-
-       <FrameLayout
-           android:layout_marginBottom="70dp"
-           android:layout_below="@id/headerChat"
-           android:id="@+id/frameLiseMessage"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
-
-           <androidx.recyclerview.widget.RecyclerView
-               android:id="@+id/listMessage"
-               android:visibility="gone"
-               android:layout_marginTop="10dp"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               />
-
-       </FrameLayout>
-
-        <com.google.android.flexbox.FlexboxLayout
-            android:visibility="gone"
-            android:id="@+id/inputChat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:padding="10dp"
-            app:alignItems="center">
-
-            <EditText
-                android:id="@+id/editTextChat"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/radius_background"
-                android:drawableLeft="@drawable/ic_baseline_insert_comment_24"
-                android:drawablePadding="20dp"
-                android:drawableTint="@color/white"
-                android:hint="Chat..."
-                android:inputType="text"
-                android:padding="12dp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textStyle="bold"
-                android:layout_marginRight="10dp"
-                app:layout_flexGrow="8" />
-
-            <Button
-                android:background="@drawable/radius_background"
-                android:id="@+id/buttonSendMess"
-                android:layout_width="0dp"
-                android:backgroundTint="@color/blue_primary"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_baseline_send_24"
-                android:drawableTint="@color/white"
-                app:layout_flexGrow="1.5" />
-
-        </com.google.android.flexbox.FlexboxLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

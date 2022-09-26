@@ -76,7 +76,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     String photoURL = documentSnapshot.getString("photoURL");
                     String displayName = documentSnapshot.getString("displayName");
                     postViewViewHolder.userName.setText(displayName);
-                    Glide.with(context).load(photoURL).into(postViewViewHolder.userAvatar);
+                    if(context != null) {
+                        Glide.with(context).load(photoURL).into(postViewViewHolder.userAvatar);
+                    }
                 }
                 postViewViewHolder.boxUserInfoLoading.setVisibility(View.GONE);
                 postViewViewHolder.boxUserInfo.setVisibility(View.VISIBLE);

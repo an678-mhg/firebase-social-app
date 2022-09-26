@@ -4,14 +4,19 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.android_firebase.R;
 import com.example.android_firebase.models.Chat;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,11 +28,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private ArrayList<Chat> chatArrayList;
     private String userId;
+    private String receiveId;
 
-    public ChatAdapter(Context context, ArrayList<Chat> chatArrayList, String userId) {
+    public ChatAdapter(Context context, ArrayList<Chat> chatArrayList, String userId, String receiveId) {
         this.context = context;
         this.chatArrayList = chatArrayList;
         this.userId = userId;
+        this.receiveId = receiveId;
     }
 
     public void setChatArrayList(ArrayList<Chat> chatArrayList) {
@@ -54,15 +61,34 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             SenderViewHolder senderViewHolder = (SenderViewHolder) holder;
             senderViewHolder.textMessage.setText(chat.getText());
             senderViewHolder.textDate.setText(convertTimeStamp(chat.getCreateAt()));
+            senderViewHolder.textMessage.setOnClickListener(v -> handleVisibleTextDate(senderViewHolder.textDate));
         } else {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
             ReceiveViewHolder receiveViewHolder = (ReceiveViewHolder) holder;
             receiveViewHolder.textMessage.setText(chat.getText());
             receiveViewHolder.textDate.setText(convertTimeStamp(chat.getCreateAt()));
+            receiveViewHolder.textMessage.setOnClickListener(v -> handleVisibleTextDate(receiveViewHolder.textDate));
+            db.collection("users").document(receiveId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if(documentSnapshot.exists()) {
+                        Glide.with(context).load(documentSnapshot.getString("photoURL")).into(receiveViewHolder.imageReceive);
+                    }
+                }
+            });
+        }
+    }
+
+    private void handleVisibleTextDate(TextView textMessage) {
+        if(textMessage.getVisibility() == View.VISIBLE) {
+            textMessage.setVisibility(View.GONE);
+        } else {
+            textMessage.setVisibility(View.VISIBLE);
         }
     }
 
     private String convertTimeStamp(Timestamp timestamp) {
-        SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         return sfd.format(timestamp.toDate());
     }
 
@@ -99,11 +125,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public class ReceiveViewHolder extends RecyclerView.ViewHolder {
         TextView textMessage, textDate;
+        ImageView imageReceive;
 
         public ReceiveViewHolder(@NonNull View itemView) {
             super(itemView);
             textMessage = itemView.findViewById(R.id.textMessage);
             textDate = itemView.findViewById(R.id.textDateTime);
+            imageReceive = itemView.findViewById(R.id.imageReceive);
         }
     }
 }

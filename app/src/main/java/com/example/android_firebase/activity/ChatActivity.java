@@ -2,17 +2,16 @@ package com.example.android_firebase.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
+
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,7 +21,7 @@ import com.bumptech.glide.Glide;
 import com.example.android_firebase.R;
 import com.example.android_firebase.adapter.ChatAdapter;
 import com.example.android_firebase.models.Chat;
-import com.google.android.flexbox.FlexboxLayout;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -36,22 +35,19 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends BaseActivity {
     private String chatUserId;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private ImageView backButton, userAvatar;
-    private TextView userName;
+    private TextView userName, textIsUserOnline;
     private EditText editTextChat;
-    private Button sendButton;
-    private FlexboxLayout headerChat;
-    private FlexboxLayout inputChat;
+    private FrameLayout sendButton;
     private ProgressBar progressBar;
     private String currentRoomId;
     private ArrayList<Chat> chatArrayList;
@@ -73,10 +69,9 @@ public class ChatActivity extends AppCompatActivity {
         userName = findViewById(R.id.userName);
         editTextChat = findViewById(R.id.editTextChat);
         sendButton = findViewById(R.id.buttonSendMess);
-        headerChat = findViewById(R.id.headerChat);
-        inputChat = findViewById(R.id.inputChat);
         progressBar = findViewById(R.id.progressBar);
         listMessage = findViewById(R.id.listMessage);
+        textIsUserOnline = findViewById(R.id.textIsOnlineUser);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle == null) return;
@@ -86,9 +81,31 @@ public class ChatActivity extends AppCompatActivity {
         handleCreateRoomChat();
 
         chatArrayList = new ArrayList<>();
-        chatAdapter = new ChatAdapter(ChatActivity.this, chatArrayList, auth.getCurrentUser().getUid());
+        chatAdapter = new ChatAdapter(ChatActivity.this, chatArrayList, auth.getCurrentUser().getUid(), chatUserId);
         linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
         listMessage.setLayoutManager(linearLayoutManager);
+    }
+
+    private void listenUserOnline(String receiveId) {
+        db.collection("users").document(receiveId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error != null) {
+                    return;
+                }
+
+                if(value.getLong("isOnline") != null) {
+                    if(value.getLong("isOnline") == 1) {
+                        textIsUserOnline.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        textIsUserOnline.setVisibility(View.GONE);
+                    }
+                } else {
+                    textIsUserOnline.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void handleLoadMessage(String roomId) {
@@ -100,7 +117,9 @@ public class ChatActivity extends AppCompatActivity {
                     public void onEvent(@Nullable QuerySnapshot value,
                                         @Nullable FirebaseFirestoreException e) {
                         if (e != null) {
+                            Toast.makeText(ChatActivity.this, "failed to load message", Toast.LENGTH_SHORT).show();
                             Log.e("error query", e.getMessage());
+                            progressBar.setVisibility(View.GONE);
                             return;
                         }
                         for (DocumentChange doc : value.getDocumentChanges()) {
@@ -115,14 +134,15 @@ public class ChatActivity extends AppCompatActivity {
                                 }
                             }
                         }
-                        chatAdapter.setChatArrayList(chatArrayList);
-                        listMessage.setAdapter(chatAdapter);
-                        listMessage.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
-                        headerChat.setVisibility(View.VISIBLE);
-                        inputChat.setVisibility(View.VISIBLE);
                         if(chatArrayList.size() > 0) {
+                            chatAdapter.setChatArrayList(chatArrayList);
+                            listMessage.setAdapter(chatAdapter);
+                            listMessage.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
+                            chatAdapter.notifyItemRangeInserted(chatArrayList.size(), chatArrayList.size());
                             listMessage.smoothScrollToPosition(chatArrayList.size() - 1);
+                        } else {
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -137,6 +157,7 @@ public class ChatActivity extends AppCompatActivity {
                     ArrayList<String> members = (ArrayList<String>) documentSnapshot.get("members");
                     for(String member: members) {
                         if(!member.equalsIgnoreCase(auth.getCurrentUser().getUid())) {
+                            listenUserOnline(member);
                             db.collection("users").document(member).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -169,19 +190,6 @@ public class ChatActivity extends AppCompatActivity {
         message.put("roomId", currentRoomId);
         db.collection("messages").add(message);
         editTextChat.setText("");
-        hideSoftKeyboard(this);
-    }
-
-    public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager =
-                (InputMethodManager) activity.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE);
-        if(inputMethodManager.isAcceptingText()){
-            inputMethodManager.hideSoftInputFromWindow(
-                    activity.getCurrentFocus().getWindowToken(),
-                    0
-            );
-        }
     }
 
     private void handleCreateRoomChat() {
@@ -236,5 +244,13 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(chatAdapter != null) {
+            chatAdapter.release();
+        }
     }
 }

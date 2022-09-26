@@ -129,7 +129,7 @@ public class PostDetailActivity extends AppCompatActivity {
     }
 
     private void addCommentInAdapter() {
-        commentArrayList.add(0, new Comment(postId, auth.getCurrentUser().getUid(), editTextComment.getText().toString(), Timestamp.now()));
+        commentArrayList.add(new Comment(postId, auth.getCurrentUser().getUid(), editTextComment.getText().toString(), Timestamp.now()));
         commentAdapter.notifyDataSetChanged();
     }
 
