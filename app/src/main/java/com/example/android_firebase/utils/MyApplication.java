@@ -5,6 +5,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 
+import com.example.android_firebase.R;
+
 public class MyApplication extends Application {
     public static final String CHANNEL_ID = "channel_id_push";
 

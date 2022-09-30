@@ -17,6 +17,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class MessageServices extends FirebaseMessagingService {
 
@@ -44,10 +45,12 @@ public class MessageServices extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.firebase_28dp)
                 .setContentIntent(pendingIntent);
 
+        int notificationId = new Random().nextInt();
+
         Notification notification = notificationBuilder.build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if(notificationManager != null) {
-            notificationManager.notify(1, notification);
+            notificationManager.notify(notificationId, notification);
         }
     }
 }
