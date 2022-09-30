@@ -87,6 +87,9 @@ public class SignUpActivity extends AppCompatActivity {
             usernameEditText.setError("Username is required!");
             return false;
         }
+        if(username.length() > 30) {
+            usernameEditText.setError("Username < 30 characters");
+        }
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailEditText.setError("Email in valid!");
             return false;

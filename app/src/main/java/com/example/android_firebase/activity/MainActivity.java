@@ -16,9 +16,13 @@ import com.example.android_firebase.fragment.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     HomeFragment homeFragment = new HomeFragment();
     SearchFragment searchFragment = new SearchFragment();
@@ -33,6 +37,7 @@ public class MainActivity extends BaseActivity {
         handleUseBottomNavigation();
         init();
         listenEvent();
+        getToken();
     }
 
     void handleUseBottomNavigation() {
@@ -72,5 +77,17 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void updateToken(String token) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        DocumentReference documentReference = db.collection("users")
+                .document(auth.getCurrentUser().getUid());
+        documentReference.update("token", token);
+    }
+
+    private void getToken() {
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
     }
 }

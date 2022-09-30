@@ -3,6 +3,7 @@ package com.example.android_firebase.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Post post = postArrayList.get(position);
         if(post == null) return;
         PostViewViewHolder postViewViewHolder = (PostViewViewHolder) holder;
+        postViewViewHolder.postTitle.setEllipsize(TextUtils.TruncateAt.END);
+        postViewViewHolder.postTitle.setMaxLines(1);
         postViewViewHolder.postTitle.setText(post.getTitle());
         Glide.with(context).load(post.getImageUri()).into(postViewViewHolder.postImageContent);
         postViewViewHolder.userSubName.setText(convertTimeStamp(post.getCreatedAt()));

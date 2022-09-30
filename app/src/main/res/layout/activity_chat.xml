@@ -109,6 +109,20 @@
         app:layout_constraintStart_toStartOf="@id/viewBackground"
         app:layout_constraintTop_toTopOf="@id/viewBackground" />
 
+    <TextView
+        android:visibility="gone"
+        android:textSize="16dp"
+        android:gravity="center"
+        android:text="No recently messages"
+        android:textColor="@color/white"
+        android:id="@+id/no_recent_messages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/viewBackground"
+        app:layout_constraintEnd_toEndOf="@id/viewBackground"
+        app:layout_constraintStart_toStartOf="@id/viewBackground"
+        app:layout_constraintTop_toTopOf="@id/viewBackground" />
+
     <FrameLayout
         android:id="@+id/buttonSendMess"
         android:layout_width="40dp"

@@ -15,7 +15,14 @@ import androidx.fragment.app.Fragment;
 import com.example.android_firebase.R;
 import com.example.android_firebase.activity.MainActivity;
 import com.example.android_firebase.activity.SignInActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 public class ProfileFragment extends Fragment {
     Button signOutButton;
@@ -42,13 +49,27 @@ public class ProfileFragment extends Fragment {
     }
 
     void listenEvent() {
-        signOutButton.setOnClickListener(new View.OnClickListener() {
+        signOutButton.setOnClickListener(v -> signOut());
+    }
+
+    private void signOut() {
+        Toast.makeText(getContext(), "Sign Out...", Toast.LENGTH_SHORT).show();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("users")
+                .document(auth.getCurrentUser().getUid());
+        HashMap<String, Object> updated = new HashMap<>();
+        updated.put("token", FieldValue.delete());
+        documentReference.update(updated).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onClick(View view) {
-                auth.signOut();
+            public void onSuccess(Void unused) {
                 Intent intent = new Intent(getActivity(), SignInActivity.class);
                 startActivity(intent);
                 getActivity().finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Sign out failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

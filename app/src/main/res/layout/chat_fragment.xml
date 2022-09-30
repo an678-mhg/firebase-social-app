@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout android:padding="10dp" xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:gravity="center"
     android:layout_height="match_parent">
 
     <TextView
+        android:textSize="16dp"
+        android:gravity="center"
+        android:text="No recently messages"
+        android:textColor="@color/white"
+        android:id="@+id/no_recent_messages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chat"
-        android:gravity="center"
-        android:textSize="50sp"
+        android:layout_centerInParent="true"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         />
 
-</LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:visibility="gone"
+        android:id="@+id/listConvention"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+</RelativeLayout>

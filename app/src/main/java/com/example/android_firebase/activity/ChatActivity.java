@@ -20,8 +20,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.android_firebase.R;
 import com.example.android_firebase.adapter.ChatAdapter;
+import com.example.android_firebase.api.NotificationServices;
+import com.example.android_firebase.models.BodyNotification;
 import com.example.android_firebase.models.Chat;
 
+import com.example.android_firebase.models.Data;
+import com.example.android_firebase.models.FCMResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -40,12 +44,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ChatActivity extends BaseActivity {
     private String chatUserId;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private ImageView backButton, userAvatar;
-    private TextView userName, textIsUserOnline;
+    private TextView userName, textIsUserOnline, textNoRecentlyMessages;
     private EditText editTextChat;
     private FrameLayout sendButton;
     private ProgressBar progressBar;
@@ -72,6 +80,7 @@ public class ChatActivity extends BaseActivity {
         progressBar = findViewById(R.id.progressBar);
         listMessage = findViewById(R.id.listMessage);
         textIsUserOnline = findViewById(R.id.textIsOnlineUser);
+        textNoRecentlyMessages = findViewById(R.id.no_recent_messages);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle == null) return;
@@ -84,6 +93,13 @@ public class ChatActivity extends BaseActivity {
         chatAdapter = new ChatAdapter(ChatActivity.this, chatArrayList, auth.getCurrentUser().getUid(), chatUserId);
         linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
         listMessage.setLayoutManager(linearLayoutManager);
+    }
+
+    private void updateLastMessage() {
+        HashMap<String, Object> updated = new HashMap<>();
+        updated.put("lastMessage", editTextChat.getText().toString());
+        DocumentReference roomRef = db.collection("rooms").document(currentRoomId);
+        roomRef.update(updated);
     }
 
     private void listenUserOnline(String receiveId) {
@@ -104,6 +120,21 @@ public class ChatActivity extends BaseActivity {
                 } else {
                     textIsUserOnline.setVisibility(View.GONE);
                 }
+            }
+        });
+    }
+
+    private void sendNotification(String senderName, String userId, String text, String to) {
+        BodyNotification bodyNotification = new BodyNotification(new Data(senderName, userId, text), to);
+        NotificationServices.notificationServices.sendNotification(bodyNotification).enqueue(new Callback<FCMResponse>() {
+            @Override
+            public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
+                Log.e("ResponseFCM", String.valueOf(response.body()));
+            }
+
+            @Override
+            public void onFailure(Call<FCMResponse> call, Throwable t) {
+                Log.e("ResponseFCM", t.getMessage());
             }
         });
     }
@@ -139,10 +170,12 @@ public class ChatActivity extends BaseActivity {
                             listMessage.setAdapter(chatAdapter);
                             listMessage.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
+                            textNoRecentlyMessages.setVisibility(View.GONE);
                             chatAdapter.notifyItemRangeInserted(chatArrayList.size(), chatArrayList.size());
                             listMessage.smoothScrollToPosition(chatArrayList.size() - 1);
                         } else {
                             progressBar.setVisibility(View.GONE);
+                            textNoRecentlyMessages.setVisibility(View.VISIBLE);
                         }
                     }
                 });
@@ -189,7 +222,23 @@ public class ChatActivity extends BaseActivity {
         message.put("createAt", Timestamp.now());
         message.put("roomId", currentRoomId);
         db.collection("messages").add(message);
-        editTextChat.setText("");
+        updateLastMessage();
+        db.collection("users").document(chatUserId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.getString("token") != null) {
+                    if(documentSnapshot.getLong("isOnline") != null || documentSnapshot.getLong("isOnline") == 0) {
+                        sendNotification(
+                                auth.getCurrentUser().getDisplayName(),
+                                auth.getCurrentUser().getUid(),
+                                editTextChat.getText().toString(),
+                                documentSnapshot.getString("token")
+                        );
+                    }
+                }
+                editTextChat.setText("");
+            }
+        });
     }
 
     private void handleCreateRoomChat() {

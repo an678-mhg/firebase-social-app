@@ -55,22 +55,16 @@ public class AddPostActivity extends AppCompatActivity {
     ImageView actionImage;
     EditText editTextTitle;
     Button selectFile, addPost;
-
     LinearLayout linearLayoutWrapImage;
-
     ProgressDialog progressDialog;
-
     Uri mUri;
     FirebaseFirestore db;
-
-    private final String TAG = MainActivity.class.getName();
 
     private ActivityResultLauncher<Intent> mIntentActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    Log.e(TAG, "onActivityResult");
                     if(result.getResultCode() == Activity.RESULT_OK) {
                         Intent intent = result.getData();
                         if(intent == null) {
@@ -159,9 +153,21 @@ public class AddPostActivity extends AppCompatActivity {
     }
 
     private void handleAddPost() {
-        if(mUri != null) {
+        if(validateDataBeforePost()) {
             handleUploadFile(mUri);
         }
+    }
+
+    private boolean validateDataBeforePost() {
+        if(editTextTitle.getText().toString().equals("")) {
+            editTextTitle.setError("Title is required!");
+            return false;
+        }
+        if(mUri == null) {
+            Toast.makeText(this, "Image is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void handleAddPostToFireStore(String title, String imageUri) {

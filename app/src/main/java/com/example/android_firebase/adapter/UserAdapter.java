@@ -17,12 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.android_firebase.activity.ChatActivity;
-import com.example.android_firebase.activity.PostDetailActivity;
 import com.example.android_firebase.models.User;
 import com.example.android_firebase.R;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class UserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
     private Context context;

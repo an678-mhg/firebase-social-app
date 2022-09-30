@@ -36,9 +36,8 @@
                     android:textStyle="bold"
                     android:background="@color/grayColor"
                     android:layout_width="100dp"
-                    android:layout_height="16dp"
+                    android:layout_height="13dp"
                     />
-
 
             </com.google.android.flexbox.FlexboxLayout>
 
@@ -49,7 +48,7 @@
                 android:textColor="@color/white"
                 android:layout_marginLeft="10dp"
                 android:layout_width="150dp"
-                android:layout_height="16dp"/>
+                android:layout_height="10dp"/>
 
         </com.google.android.flexbox.FlexboxLayout>
     </com.google.android.flexbox.FlexboxLayout>

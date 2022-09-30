@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:id="@+id/userItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/layoutConventionLoading"
+        android:layout_marginBottom="10dp"
+        app:alignItems="center"
+        android:padding="10dp"
+        android:background="@drawable/radius_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            />
+
+        <com.google.android.flexbox.FlexboxLayout
+            app:flexDirection="column"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:background="@color/grayColor"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:layout_width="100dp"
+                android:layout_height="13dp"
+                />
+
+            <TextView
+                android:background="@color/grayColor"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="14dp"
+                android:textColor="@color/grayColor"
+                android:layout_width="80dp"
+                android:layout_height="10dp"
+                />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/layoutConvention"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp"
+        app:alignItems="center"
+        android:padding="10dp"
+        android:background="@drawable/radius_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userAvatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            />
+
+        <com.google.android.flexbox.FlexboxLayout
+            app:layout_flexShrink="@integer/material_motion_duration_long_1"
+            app:flexDirection="column"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/userName"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:id="@+id/userSubName"
+                android:layout_marginLeft="10dp"
+                android:textSize="14dp"
+                android:textColor="@color/grayColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+</LinearLayout>
