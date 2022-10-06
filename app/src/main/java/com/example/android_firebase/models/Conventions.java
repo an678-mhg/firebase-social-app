@@ -5,14 +5,24 @@ import com.google.firebase.Timestamp;
 import java.util.ArrayList;
 
 public class Conventions {
+    String id;
     ArrayList<String> members;
     Timestamp createAt;
     String lastMessage;
 
-    public Conventions(ArrayList<String> members, Timestamp createAt, String lastMessage) {
+    public Conventions(String id, ArrayList<String> members, Timestamp createAt, String lastMessage) {
+        this.id = id;
         this.members = members;
         this.createAt = createAt;
         this.lastMessage = lastMessage;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public ArrayList<String> getMembers() {

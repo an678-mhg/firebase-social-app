@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,7 +51,7 @@ import retrofit2.Response;
 
 public class AddPostActivity extends AppCompatActivity {
     private static final int MY_REQUESTED = 10;
-    ImageView actionImage;
+    ImageView actionImage, backButton;
     EditText editTextTitle;
     Button selectFile, addPost;
     LinearLayout linearLayoutWrapImage;
@@ -100,6 +99,7 @@ public class AddPostActivity extends AppCompatActivity {
         addPost = findViewById(R.id.button_add_post);
         actionImage = findViewById(R.id.action_image);
         linearLayoutWrapImage = findViewById(R.id.wrap_image);
+        backButton = findViewById(R.id.backButton);
         db = FirebaseFirestore.getInstance();
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait....");
@@ -117,6 +117,13 @@ public class AddPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 handleAddPost();
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
     }

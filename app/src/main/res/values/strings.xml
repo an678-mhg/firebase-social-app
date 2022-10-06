@@ -15,4 +15,5 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="we_are_connected_to_the_internet">We are connected to the internet</string>
 </resources>

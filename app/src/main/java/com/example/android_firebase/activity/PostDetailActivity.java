@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -44,8 +45,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PostDetailActivity extends AppCompatActivity {
-    private ImageView imagePostContent, imageAvatarUser;
-    private TextView postUserName, postUserSubName, postContentTitle, textViewNoComment;
+    private ImageView imagePostContent, imageAvatarUser, backButton;
+    private TextView postUserName, postUserSubName, postContentTitle, textViewNoComment, toolbarUserName;
     private ProgressBar progressBar, progressBarComment;
     private ScrollView scrollView;
     private FlexboxLayout boxUserInfo;
@@ -57,7 +58,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
-    private Button sendButton;
+    private FrameLayout sendButton;
     private String postId;
 
     @Override
@@ -85,6 +86,9 @@ public class PostDetailActivity extends AppCompatActivity {
         listComment = findViewById(R.id.listComment);
         textViewNoComment = findViewById(R.id.textViewNoComment);
         sendButton = findViewById(R.id.buttonSendMess);
+        backButton = findViewById(R.id.backButton);
+        toolbarUserName = findViewById(R.id.toolbarUserName);
+
         Bundle bundle = getIntent().getExtras();
         if(bundle == null) return;
         postId = (String) bundle.get("postId");
@@ -100,6 +104,13 @@ public class PostDetailActivity extends AppCompatActivity {
     private void listenEvent() {
         sendButton.setOnClickListener(v -> {
             postCommentFirebase();
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
         });
     }
 
@@ -204,6 +215,7 @@ public class PostDetailActivity extends AppCompatActivity {
                     postUserName.setText(documentSnapshot.getString("displayName"));
                     boxUserInfoLoading.setVisibility(View.GONE);
                     boxUserInfo.setVisibility(View.VISIBLE);
+                    toolbarUserName.setText(documentSnapshot.getString("displayName"));
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

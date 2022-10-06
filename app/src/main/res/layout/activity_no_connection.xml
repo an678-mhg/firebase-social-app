@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.NoConnectionActivity">
+
+    <RelativeLayout
+        android:id="@+id/noInternetLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/no_internet_image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="128dp"
+            android:src="@drawable/no_connection" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/no_internet_heading"
+            android:layout_below="@id/no_internet_image"
+            android:text="No Internet Connection"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/no_internet_text"
+            android:layout_below="@id/no_internet_heading"
+            android:gravity="center"
+            android:text="Check your Internet Connection and Try Again"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_marginTop="40dp"
+            android:textColor="@color/black"
+            />
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progressBar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:layout_below="@id/no_internet_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"  />
+
+        <Button
+            android:id="@+id/buttonTryAgain"
+            android:padding="10dp"
+            android:backgroundTint="@color/primary_background_3"
+            android:text="Try Again"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:layout_below="@id/no_internet_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"  />
+
+    </RelativeLayout>
+
+</RelativeLayout>

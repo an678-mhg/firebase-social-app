@@ -62,6 +62,7 @@ public class ChatActivity extends BaseActivity {
     private ChatAdapter chatAdapter;
     private LinearLayoutManager linearLayoutManager;
     private RecyclerView listMessage;
+    private View bottomView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class ChatActivity extends BaseActivity {
         listMessage = findViewById(R.id.listMessage);
         textIsUserOnline = findViewById(R.id.textIsOnlineUser);
         textNoRecentlyMessages = findViewById(R.id.no_recent_messages);
+        bottomView = findViewById(R.id.bottomView);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle == null) return;
@@ -93,6 +95,8 @@ public class ChatActivity extends BaseActivity {
         chatAdapter = new ChatAdapter(ChatActivity.this, chatArrayList, auth.getCurrentUser().getUid(), chatUserId);
         linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
         listMessage.setLayoutManager(linearLayoutManager);
+        chatAdapter.setChatArrayList(chatArrayList);
+        listMessage.setAdapter(chatAdapter);
     }
 
     private void updateLastMessage() {
@@ -166,12 +170,10 @@ public class ChatActivity extends BaseActivity {
                             }
                         }
                         if(chatArrayList.size() > 0) {
-                            chatAdapter.setChatArrayList(chatArrayList);
-                            listMessage.setAdapter(chatAdapter);
+                            chatAdapter.notifyDataSetChanged();
                             listMessage.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
                             textNoRecentlyMessages.setVisibility(View.GONE);
-                            chatAdapter.notifyItemRangeInserted(chatArrayList.size(), chatArrayList.size());
                             listMessage.smoothScrollToPosition(chatArrayList.size() - 1);
                         } else {
                             progressBar.setVisibility(View.GONE);

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_firebase.R;
 import com.example.android_firebase.adapter.ConventionAdapter;
+import com.example.android_firebase.models.Chat;
 import com.example.android_firebase.models.Conventions;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -68,9 +69,22 @@ public class ChatFragment extends Fragment {
                                 String lastMessage = doc.getDocument().getString("lastMessage");
                                 Timestamp createAt = doc.getDocument().getTimestamp("createAt");
                                 ArrayList<String> members = (ArrayList<String>) doc.getDocument().get("members");
-                                Conventions conventions = new Conventions(members, createAt, lastMessage);
+                                String id = doc.getDocument().getId();
+                                Conventions conventions = new Conventions(id, members, createAt, lastMessage);
+
                                 if(conventions != null) {
                                     conventionsArrayList.add(conventions);
+                                }
+                            }
+                            if(doc.getType() == DocumentChange.Type.MODIFIED) {
+                                String lastMessage = doc.getDocument().getString("lastMessage");
+                                if(lastMessage != null) {
+                                    for(Conventions convention : conventionsArrayList) {
+                                        if(doc.getDocument().getId().equals(convention.getId())) {
+                                            convention.setLastMessage(lastMessage);
+                                            conventionAdapter.notifyDataSetChanged();
+                                        }
+                                    }
                                 }
                             }
                         }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -125,7 +126,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void onClickDetail(Post post) {
         Intent intent = new Intent(context, PostDetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("postId", post.getId());
+        bundle.putString("postId", post.getId());
         intent.putExtras(bundle);
         context.startActivity(intent);
     }

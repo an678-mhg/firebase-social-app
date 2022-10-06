@@ -1,16 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:gravity="center"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Button
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:layout_margin="16dp"
-        android:text="Sign Out"
-        android:id="@+id/sign_out"
-        />
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/profileInfo"
+            app:flexDirection="column"
+            app:alignItems="center"
+            app:justifyContent="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userAvatarProfile"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                />
+
+            <TextView
+                android:id="@+id/userNameProfile"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:id="@+id/emailProfile"
+                android:textSize="14dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_marginTop="40dp"
+            android:layout_below="@id/profileInfo"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:textColor="@color/white"
+                android:hint="Username"
+                android:background="@color/primary_background_2"
+                android:textColorHint="@color/white"
+                android:textStyle="bold"
+                android:inputType="text"
+                android:drawableLeft="@drawable/ic_baseline_person_outline_24"
+                android:drawablePadding="20dp"
+                android:id="@+id/editTextUsername"
+                />
+
+            <ProgressBar
+                android:layout_marginVertical="5dp"
+                android:id="@+id/progressBarUpdateProfile"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <Button
+                android:textColor="@color/white"
+                android:backgroundTint="@color/primary_background_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:text="Edit username"
+                android:id="@+id/editProfile"
+                />
+
+            <Button
+                android:textColor="@color/white"
+                android:backgroundTint="@color/primary_background_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:text="Sign Out"
+                android:id="@+id/sign_out"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

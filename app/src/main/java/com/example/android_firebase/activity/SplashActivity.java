@@ -2,7 +2,9 @@ package com.example.android_firebase.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -20,18 +22,28 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                auth = FirebaseAuth.getInstance();
-                if(auth.getCurrentUser() == null) {
-                    // Log out
-                    Intent intent = new Intent(SplashActivity.this, SignInActivity.class);
-                    startActivity(intent);
+                if(isNetworkConnected()) {
+                    auth = FirebaseAuth.getInstance();
+                    if(auth.getCurrentUser() == null) {
+                        // Log out
+                        Intent intent = new Intent(SplashActivity.this, SignInActivity.class);
+                        startActivity(intent);
+                    } else {
+                        // Sign In
+                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
                 } else {
-                    // Sign In
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, NoConnectionActivity.class);
                     startActivity(intent);
                 }
                 finish();
             }
         }, 1000);
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 }

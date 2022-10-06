@@ -48,6 +48,17 @@
         <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/AndroidFireBase/app/src/main/res/layout/user_item.xml" value="0.20512820512820512" />
         <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/AndroidFireBase/app/src/main/res/menu/menu.xml" value="0.2" />
         <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/AndroidFireBase/app/src/main/res/menu/search_menu.xml" value="0.24895833333333334" />
+        <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/Firebase_App/app/src/main/res/layout/activity_add_post.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/Firebase_App/app/src/main/res/layout/activity_chat.xml" value="0.151268115942029" />
+        <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/Firebase_App/app/src/main/res/layout/activity_no_connection.xml" value="0.128" />
+        <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/Firebase_App/app/src/main/res/layout/activity_post_detail.xml" value="0.25" />
+        <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/Firebase_App/app/src/main/res/layout/activity_sign_in.xml" value="0.25" />
+        <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/Firebase_App/app/src/main/res/layout/activity_sign_up.xml" value="0.25" />
+        <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/Firebase_App/app/src/main/res/layout/activity_splash.xml" value="0.25" />
+        <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/Firebase_App/app/src/main/res/layout/message_type_receive.xml" value="0.25" />
+        <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/Firebase_App/app/src/main/res/layout/message_type_sender.xml" value="0.25" />
+        <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/Firebase_App/app/src/main/res/layout/post_item.xml" value="0.25" />
+        <entry key="..\:/Users/AnDHSP/AndroidStudioProjects/Firebase_App/app/src/main/res/layout/profile_fragment.xml" value="0.25" />
       </map>
     </option>
   </component>

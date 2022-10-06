@@ -61,13 +61,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             SenderViewHolder senderViewHolder = (SenderViewHolder) holder;
             senderViewHolder.textMessage.setText(chat.getText());
             senderViewHolder.textDate.setText(convertTimeStamp(chat.getCreateAt()));
-            senderViewHolder.textMessage.setOnClickListener(v -> handleVisibleTextDate(senderViewHolder.textDate));
         } else {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             ReceiveViewHolder receiveViewHolder = (ReceiveViewHolder) holder;
             receiveViewHolder.textMessage.setText(chat.getText());
             receiveViewHolder.textDate.setText(convertTimeStamp(chat.getCreateAt()));
-            receiveViewHolder.textMessage.setOnClickListener(v -> handleVisibleTextDate(receiveViewHolder.textDate));
             db.collection("users").document(receiveId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -76,14 +74,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 }
             });
-        }
-    }
-
-    private void handleVisibleTextDate(TextView textMessage) {
-        if(textMessage.getVisibility() == View.VISIBLE) {
-            textMessage.setVisibility(View.GONE);
-        } else {
-            textMessage.setVisibility(View.VISIBLE);
         }
     }
 
