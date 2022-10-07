@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android_firebase.R;
 import com.example.android_firebase.adapter.ConventionAdapter;
-import com.example.android_firebase.models.Chat;
 import com.example.android_firebase.models.Conventions;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -100,6 +99,12 @@ public class ChatFragment extends Fragment {
                         }
                     }
                 }));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        conventionAdapter.release();
     }
 }
 

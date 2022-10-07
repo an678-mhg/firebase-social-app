@@ -90,6 +90,10 @@ public class ConventionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         context.startActivity(intent);
     }
 
+    public void release() {
+        context = null;
+    }
+
     @Override
     public int getItemCount() {
         if(conventionsArrayList != null) {

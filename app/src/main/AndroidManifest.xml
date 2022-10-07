@@ -21,6 +21,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.EditPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ManagerPostActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.NoConnectionActivity"
             android:exported="false" />
         <activity

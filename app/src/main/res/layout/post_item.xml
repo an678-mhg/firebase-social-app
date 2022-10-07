@@ -44,42 +44,70 @@
                     />
             </com.google.android.flexbox.FlexboxLayout>
         </com.google.android.flexbox.FlexboxLayout>
-
         <com.google.android.flexbox.FlexboxLayout
-        android:visibility="gone"
+            android:visibility="gone"
+        app:justifyContent="space_between"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:flexDirection="row"
         app:alignItems="center"
         android:id="@+id/box_info_user"
         >
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:id="@+id/userAvatar"
-            />
-
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="wrap_content"
-            android:layout_marginLeft="10dp"
-            app:flexDirection="column"
             android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:id="@+id/userName"
-                android:textColor="@color/white"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:src="@drawable/fb"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/userAvatar"
                 />
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
+                app:flexDirection="column"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Hello"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:id="@+id/userName"
+                    android:textColor="@color/white"
+                    />
 
-            <TextView
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14dp"
-                android:id="@+id/userSubName"
-                />
+                <TextView
+                    android:text="Subname"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:id="@+id/userSubName"
+                    />
+            </com.google.android.flexbox.FlexboxLayout>
+        </com.google.android.flexbox.FlexboxLayout>
+        <com.google.android.flexbox.FlexboxLayout
+            android:visibility="gone"
+            android:id="@+id/layoutEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:layout_marginRight="5dp"
+                android:id="@+id/buttonEdit"
+                android:src="@drawable/ic_baseline_edit_24"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
+
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:id="@+id/buttonRemove"
+                android:src="@drawable/ic_baseline_restore_from_trash_24"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
+
         </com.google.android.flexbox.FlexboxLayout>
     </com.google.android.flexbox.FlexboxLayout>
 

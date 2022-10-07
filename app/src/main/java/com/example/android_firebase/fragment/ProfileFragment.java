@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.android_firebase.R;
 import com.example.android_firebase.activity.MainActivity;
+import com.example.android_firebase.activity.ManagerPostActivity;
 import com.example.android_firebase.activity.SignInActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,7 +36,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 
 public class ProfileFragment extends Fragment {
-    private Button signOutButton, editProfile;
+    private Button signOutButton, editProfile, managerPost;
     private FirebaseAuth auth;
     private ImageView avatarProfile;
     private TextView userNameProfile, emailProfile;
@@ -62,6 +63,7 @@ public class ProfileFragment extends Fragment {
         editTextUserName = view.findViewById(R.id.editTextUsername);
         editProfile = view.findViewById(R.id.editProfile);
         progressBarUpdateProfile = view.findViewById(R.id.progressBarUpdateProfile);
+        managerPost = view.findViewById(R.id.managerPost);
 
         db = FirebaseFirestore.getInstance();
     }
@@ -126,6 +128,7 @@ public class ProfileFragment extends Fragment {
     void listenEvent() {
         signOutButton.setOnClickListener(v -> signOut());
         editProfile.setOnClickListener(v -> handleEditProfile());
+        managerPost.setOnClickListener(v -> startActivity(new Intent(getContext(), ManagerPostActivity.class)));
     }
 
     private void signOut() {

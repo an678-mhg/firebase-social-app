@@ -1,6 +1,8 @@
 package com.example.android_firebase.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.android_firebase.R;
+import com.example.android_firebase.activity.EditPostActivity;
 import com.example.android_firebase.activity.PostDetailActivity;
 import com.example.android_firebase.models.Post;
 import com.google.android.flexbox.FlexboxLayout;
@@ -72,6 +75,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Glide.with(context).load(post.getImageUri()).into(postViewViewHolder.postImageContent);
         postViewViewHolder.userSubName.setText(convertTimeStamp(post.getCreatedAt()));
 
+        if(userId.equals(post.getUserId())) {
+            postViewViewHolder.layoutEdit.setVisibility(View.VISIBLE);
+        }
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users").document(post.getUserId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -116,6 +123,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 handleLikePost(post);
             }
         });
+
+        postViewViewHolder.buttonRemove.setOnClickListener(v -> handleDeletePost(post.getId(), position));
+
+        postViewViewHolder.buttonEdit.setOnClickListener(v -> handleClickButtonEdit(post.getId(), post.getTitle()));
     }
 
     private String convertTimeStamp(Timestamp timestamp) {
@@ -144,6 +155,37 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         db.collection("posts").document(post.getId()).update(newData);
     }
 
+    private void handleDeletePost(String postId, int index) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        alertDialog.setTitle("Do you want to delete this post?");
+        alertDialog.setIcon(R.drawable.ic_outline_info_24);
+
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                postArrayList.remove(index);
+                notifyDataSetChanged();
+                db.collection("posts").document(postId).delete();
+            }
+        });
+        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        alertDialog.show();
+    }
+
+    private void handleClickButtonEdit(String postId, String postTitle) {
+        Intent intent = new Intent(context, EditPostActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("postId", postId);
+        bundle.putString("postTitle", postTitle);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
+
     @Override
     public int getItemCount() {
         if(postArrayList != null) {
@@ -161,6 +203,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ImageView iconLike;
         FlexboxLayout boxUserInfo;
         FlexboxLayout boxUserInfoLoading;
+        FlexboxLayout layoutEdit;
+        ImageView buttonEdit;
+        ImageView buttonRemove;
 
         public PostViewViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -175,6 +220,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             textLikeCount = itemView.findViewById(R.id.textLikeCount);
             boxUserInfo = itemView.findViewById(R.id.box_info_user);
             boxUserInfoLoading = itemView.findViewById(R.id.box_info_user_loading);
+            layoutEdit = itemView.findViewById(R.id.layoutEdit);
+            buttonEdit = itemView.findViewById(R.id.buttonEdit);
+            buttonRemove = itemView.findViewById(R.id.buttonRemove);
         }
     }
 }
