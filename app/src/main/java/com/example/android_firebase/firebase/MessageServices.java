@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -39,11 +41,13 @@ public class MessageServices extends FirebaseMessagingService {
     private void sendNotification(String title, String body) {
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, MyApplication.CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setSmallIcon(R.drawable.firebase_28dp)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setSound(alarmSound);
 
         int notificationId = new Random().nextInt();
 

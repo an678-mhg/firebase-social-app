@@ -129,11 +129,12 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void sendNotification(String senderName, String userId, String text, String to) {
+        Log.e("Start push notification", "start");
         BodyNotification bodyNotification = new BodyNotification(new Data(senderName, userId, text), to);
         NotificationServices.notificationServices.sendNotification(bodyNotification).enqueue(new Callback<FCMResponse>() {
             @Override
             public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
-                Log.e("ResponseFCM", String.valueOf(response.body()));
+                Log.e("ResponseFCM", String.valueOf(response.body().getFailure()));
             }
 
             @Override
@@ -229,7 +230,7 @@ public class ChatActivity extends BaseActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot.getString("token") != null) {
-                    if(documentSnapshot.getLong("isOnline") != null || documentSnapshot.getLong("isOnline") == 0) {
+                    if(documentSnapshot.getLong("isOnline") != null && documentSnapshot.getLong("isOnline") == 0) {
                         sendNotification(
                                 auth.getCurrentUser().getDisplayName(),
                                 auth.getCurrentUser().getUid(),
